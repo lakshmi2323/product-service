@@ -125,7 +125,7 @@ public class ProductServiceTest {
             productService.updateProductPrice(12345678, null);
             fail();
         }
-        catch (ProductNotFoundException e){
+        catch (ProductBadRequestException e){
             Assert.assertEquals("Invalid input request", e.getMessage());
         }
     }
@@ -141,7 +141,7 @@ public class ProductServiceTest {
             productService.updateProductPrice(inputRequest.getId(), inputRequest);
             fail();
         }
-        catch (ProductNotFoundException e){
+        catch (ProductBadRequestException e){
             Assert.assertEquals("Product price cannot be null", e.getMessage());
         }
     }
@@ -161,7 +161,7 @@ public class ProductServiceTest {
             productService.updateProductPrice(inputRequest.getId(), inputRequest);
             fail();
         }
-        catch (ProductNotFoundException e){
+        catch (ProductBadRequestException e){
             Assert.assertEquals("Product price cannot be null", e.getMessage());
         }
     }

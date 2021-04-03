@@ -7,13 +7,11 @@ import com.tgt.myretail.productservice.repository.ProductPricingRepository;
 import com.tgt.myretail.productservice.response.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import java.util.Date;
 
 @Component
 public class ProductService {
@@ -23,9 +21,6 @@ public class ProductService {
 
     @Autowired
     ProductResponseConverter productResponseConverter;
-
-    @Autowired
-    RestTemplate restTemplate;
 
     @Value("${externalapi.rooturl}")
     String rootURL;
@@ -50,11 +45,11 @@ public class ProductService {
 
     public ProductResponse updateProductPrice (Integer productId, ProductResponse inputRequest) {
         if(inputRequest == null){
-            throw new ProductNotFoundException("Invalid input request");
+            throw new ProductBadRequestException("Invalid input request");
         }
 
         if(inputRequest.getCurrent_price() == null || inputRequest.getCurrent_price().getValue() == null){
-            throw new ProductNotFoundException("Product price cannot be null");
+            throw new ProductBadRequestException("Product price cannot be null");
         }
 
         // get price store from mongodb with the given product id
@@ -83,7 +78,7 @@ public class ProductService {
 
     public String getProductName(Integer productId) {
         final String uri = rootURL + productId + "?" + excludeAttribute +"&" +keyAttribute;
-        restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
         String productName;
         try{
             ResponseEntity<String> responseJSONString = restTemplate.getForEntity(uri, String.class);
@@ -112,15 +107,5 @@ public class ProductService {
             throw new ProductNotFoundException("Product not found for the given product id");
         }
         return productPrice;
-    }
-
-    @SuppressWarnings("unused")
-    private String callRedskyServiceAngGetProductDataFallback(Integer productId){
-        return "CIRCUIT BREAKER ENABLED!! No Response from Redsky Service at this moment. Service will be back shortly - " + new Date();
-    }
-
-    @Bean
-    public RestTemplate restTemplate(){
-        return new RestTemplate();
     }
 }

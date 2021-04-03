@@ -42,7 +42,8 @@ public class ProductController {
             @ApiResponse(code = 200, message = "Success|OK"),
             @ApiResponse(code = 401, message = "Not authorized"),
             @ApiResponse(code = 403, message = "forbidden!!!"),
-            @ApiResponse(code = 404, message = "Not found!!")
+            @ApiResponse(code = 404, message = "Not found!!"),
+            @ApiResponse(code = 400, message = "Bad request")
     })
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
