@@ -14,8 +14,6 @@ import org.mockito.Mockito;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,6 +36,7 @@ public class ProductServiceTest {
         ReflectionTestUtils.setField(productService, "rootURL", "https://redsky.target.com/v3/pdp/tcin/");
         ReflectionTestUtils.setField(productService, "excludeAttribute", "excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics");
         ReflectionTestUtils.setField(productService, "keyAttribute", "key=candidate");
+        ReflectionTestUtils.setField(productService, "productNameJsonPath","$['product']['item']['product_description']['title']");
     }
 
     @Test

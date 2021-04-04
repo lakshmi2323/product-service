@@ -31,6 +31,9 @@ public class ProductService {
     @Value("${externalapi.keyattribute}")
     String keyAttribute;
 
+    @Value("${externalapi.product.name.path}")
+    String productNameJsonPath;
+
     ProductPrice productPrice;
 
     public ProductResponse findProductById (Integer productId){
@@ -96,9 +99,8 @@ public class ProductService {
     }
 
     public String parseProductName(String jsonDataSourceString)  {
-        String jsonProductNamePath = "$['product']['item']['product_description']['title']";
         DocumentContext jsonContext = JsonPath.parse(jsonDataSourceString);
-        return jsonContext.read(jsonProductNamePath);
+        return jsonContext.read(productNameJsonPath);
     }
 
     public ProductPrice getProductPrice(Integer productId){
